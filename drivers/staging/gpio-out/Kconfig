@@ -1,0 +1,4 @@
+config GPIOOUT
+        tristate "gpio out"
+        ---help---
+        This option enables support for gpio out drivers.
