@@ -36,6 +36,29 @@ static const struct of_device_id gpio_learn_id[] = {
 };
 
 MODULE_DEVICE_TABLE(of, gpio_learn_id);
+
+static long gpio_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
+    struct gpio_learn_res *res = filp->private_data;
+    if (arg < 4)
+    {
+        switch (cmd)
+        {
+        case 0:
+            gpiod_direction_output(res->gpio[arg], 0);
+            break;
+
+        case 1:
+        default:
+            gpiod_direction_output(res->gpio[arg], 0);
+            break;
+        }
+        return 0;
+    }
+    printk(KERN_ERR "arg must < 4\r\n");
+    return -EFAULT;
+}
+
 ssize_t getvalue(struct file *filp, char __user *buf, size_t count,
                  loff_t *f_pos)
 {
@@ -45,14 +68,18 @@ ssize_t getvalue(struct file *filp, char __user *buf, size_t count,
     char buff[10] = {};
     struct gpio_learn_res *res = filp->private_data;
     int nbytes;
+    if (count > 5)
+    {
+        count = 5;
+    }
     buff[0] = res->gpioValue[0] + '0';
     buff[1] = res->gpioValue[1] + '0';
     buff[2] = res->gpioValue[2] + '0';
     buff[3] = res->gpioValue[3] + '0';
     buff[4] = 0;
     nbytes = copy_to_user(buf, buff, 5);
-    *f_pos += 5;
-    return 5;
+    *f_pos += count;
+    return count;
 }
 
 ssize_t setvalue(struct file *filp, const char __user *buf, size_t count,
@@ -66,9 +93,9 @@ ssize_t setvalue(struct file *filp, const char __user *buf, size_t count,
     int nbytes;
     size_t countsave;
     countsave = count;
-    if( count > 4 )
+    if (count > 4)
     {
-	    count = 4;
+        count = 4;
     }
     nbytes = copy_from_user(buff, buf, count);
     // printk(KERN_INFO "set value:%s", buff);
@@ -113,7 +140,7 @@ struct file_operations gpio_fops = {
     .owner = THIS_MODULE,
     .read = getvalue,
     .write = setvalue,
-    // .unlocked_ioctl = scull_ioctl,
+    .unlocked_ioctl = gpio_ioctl,
     .open = open,
     .release = release,
 };
@@ -156,6 +183,8 @@ static int gpio_learn_probe(struct platform_device *pdev)
             gpiores->gpio[i] = NULL;
         }
     }
+
+    gpiod_direction_output(gpiores->gpio[0], 1);
 
     result = alloc_chrdev_region(&gpiores->devt, 0, 1, "gpio-out");
 
