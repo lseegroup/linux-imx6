@@ -164,6 +164,7 @@
 		caam_sm: caam-sm@00100000 {
 			compatible = "fsl,imx7d-caam-sm", "fsl,imx6q-caam-sm";
 			reg = <0x00100000 0x3fff>;
+
 		};
 
 		irq_sec_vio: caam_secvio {
@@ -734,13 +735,16 @@
 					mask = <0x61>;
 				};
 
-		/*		snvs_pwrkey: snvs-powerkey {
+				/*
+				snvs_pwrkey: snvs-powerkey {
 					compatible = "fsl,sec-v4.0-pwrkey";
 					regmap = <&snvs>;
 					interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
 					linux,keycode = <KEY_POWER>;
 					wakeup;
-				}; */
+				};
+				*/
+				 
 			};
 
 			epit1: epit@020d0000 {

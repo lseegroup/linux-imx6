@@ -715,7 +715,7 @@
 					offset = <0x38>;
 					mask = <0x61>;
 				};
-
+/*
 				snvs_pwrkey: snvs-powerkey {
 					compatible = "fsl,sec-v4.0-pwrkey";
 					regmap = <&snvs>;
@@ -723,6 +723,8 @@
 					linux,keycode = <KEY_POWER>;
 					wakeup;
 				};
+*/
+
 			};
 
 			epit1: epit@020d0000 {

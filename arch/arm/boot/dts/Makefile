@@ -454,7 +454,8 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
 	FCU1103-nand-256m-sys-800x480.dtb    \
 	FCU1103-nand-256m-sys-1024x600.dtb   \
 	FCU1103-nand-256m-sys-1280x800.dtb   \
-#	imx6ul-14x14-evk-c3.dtb \
+	FCU1103-nand-256m-sys-nano.dtb 	\
+	#imx6ul-14x14-evk-c3.dtb \
 	imx6ul-14x14-evk-emmc-c3-sys-800x480.dtb \
 	imx6ul-14x14-evk-emmc-c3-sys-800x480-bak.dtb \
 	imx6ul-14x14-evk-emmc-c3-dev-800x480.dtb \

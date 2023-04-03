@@ -23,7 +23,7 @@
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
 	display = <&display0>;
-	status = "okay";
+	status = "disable";
 
 	display0: display {
 		bits-per-pixel = <24>;
